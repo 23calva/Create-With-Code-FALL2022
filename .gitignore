@@ -27,6 +27,14 @@ Prototype 2/[Bb]uilds/
 Prototype 2/[Ll]ogs/
 Prototype 2/[Uu]ser[Ss]ettings/
 
+Challenge 2/[Ll]ibrary/
+Challenge 2/[Tt]emp/
+Challenge 2/[Oo]bj/
+Challenge 2/[Bb]uild/
+Challenge 2/[Bb]uilds/
+Challenge 2/[Ll]ogs/
+Challenge 2/[Uu]ser[Ss]ettings/
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
