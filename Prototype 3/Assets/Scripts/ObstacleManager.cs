@@ -3,12 +3,11 @@ using UnityEngine;
 public class ObstacleManager : MonoBehaviour
 {
     public GameObject[] Prefabs;
-    public Vector3 StartPos;
+    public Player Player;
 
-    float SpawnDelay = 2f;
-    float SpawnRate = 2f;
-
-    float XRange = -10f;
+    Vector3 SpawnPos = Vector3.right * 25f;
+    float SpawnDelay = 2f, SpawnRate = 2f;
+    float XRange = -10f, YRange = -3f;
 
     void Start()
     {
@@ -17,18 +16,26 @@ public class ObstacleManager : MonoBehaviour
 
     void Update()
     {
+        if ( Player.GameOver )
+        {
+            CancelInvoke();
+            return;
+        }
+
         foreach (var obj in GameObject.FindGameObjectsWithTag("Obstacle"))
         {
-            obj.transform.Translate(Vector3.left * 10f * Time.deltaTime);
+            obj.transform.Translate(Vector3.left * 10f * Time.deltaTime, Space.World);
 
-            if (obj.transform.position.x < XRange)
+            if (obj.transform.position.x < XRange || obj.transform.position.y < YRange)
+            {
                 Destroy(obj);
+            }
         }
     }
 
     void SpawnObstacle()
     {
         int rnd = Random.Range(0, Prefabs.Length);
-        var obj = Instantiate(Prefabs[rnd], StartPos, Prefabs[rnd].transform.rotation);
+        Instantiate(Prefabs[rnd], SpawnPos, Prefabs[rnd].transform.rotation);
     }
 }
