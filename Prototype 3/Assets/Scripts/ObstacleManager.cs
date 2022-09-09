@@ -3,7 +3,7 @@ using UnityEngine;
 public class ObstacleManager : MonoBehaviour
 {
     public GameObject[] Prefabs;
-    public Player Player;
+    Player Player;
 
     Vector3 SpawnPos = Vector3.right * 25f;
     float SpawnDelay = 2f, SpawnRate = 2f;
@@ -11,6 +11,7 @@ public class ObstacleManager : MonoBehaviour
 
     void Start()
     {
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         InvokeRepeating("SpawnObstacle", SpawnDelay, SpawnRate );
     }
 
