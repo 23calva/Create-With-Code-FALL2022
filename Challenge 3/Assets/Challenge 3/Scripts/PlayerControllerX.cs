@@ -5,15 +5,16 @@ public class PlayerControllerX : MonoBehaviour
     public bool gameOver;
 
     public float floatForce;
-    private float gravityModifier = 1.5f;
-    private Rigidbody playerRb;
+    float gravityModifier = 1f;
+    Rigidbody playerRb;
 
     public ParticleSystem explosionParticle;
     public ParticleSystem fireworksParticle;
 
-    private AudioSource playerAudio;
+    AudioSource playerAudio;
     public AudioClip moneySound;
     public AudioClip explodeSound;
+    public AudioClip bumpSound;
 
     void Start()
     {
@@ -27,10 +28,26 @@ public class PlayerControllerX : MonoBehaviour
 
     void Update()
     {
+        if (gameOver) return;
+
         // While space is pressed and player is low enough, float up
-        if (Input.GetKey(KeyCode.Space) && !gameOver)
+        if (Input.GetKey(KeyCode.Space))
         {
             playerRb.AddForce(Vector3.up * floatForce * Time.deltaTime);
+        }
+        // Player cannot go above y level 14 or below 4. If so, remove velocity.
+        var pos = transform.position;
+        if (transform.position.y > 14f)
+        {
+            transform.position = new Vector3(pos.x, 14f, pos.z);
+            playerRb.velocity = Vector3.zero;
+        }
+        else if (transform.position.y < 4f)
+        {
+            transform.position = new Vector3(pos.x, 4f, pos.z);
+            playerRb.velocity = Vector3.zero;
+            playerRb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+            playerAudio.PlayOneShot(bumpSound, 1.0f);
         }
     }
 
@@ -51,7 +68,6 @@ public class PlayerControllerX : MonoBehaviour
             fireworksParticle.Play();
             playerAudio.PlayOneShot(moneySound, 1.0f);
             Destroy(other.gameObject);
-
         }
     }
 }
